@@ -2,78 +2,44 @@
 
 IECODE est une suite d'outils puissante conçue pour le reverse engineering, l'extraction de données et le modding d'**Inazuma Eleven: Victory Road** (Beta & Full Version). Ce projet permet d'extraire les archives du jeu, d'analyser les formats propriétaires de Level-5 et de convertir les données binaires en formats exploitables (JSON, PNG, GLB).
 
-## 🛠️ Installation Rapide
+---
 
-Pour installer automatiquement .NET, compiler le projet et l'ajouter à votre PATH global :
+## 🛠️ Installation et Utilisation (Workflow complet)
 
-1. Ouvrez un terminal PowerShell en tant qu'administrateur.
-2. Lancez le script de configuration :
+Pour une installation propre et une extraction complète, suivez les scripts dans cet ordre précis :
+
+### 1. Installation Globale
+Installe .NET 9.0 (si nécessaire), compile le projet et ajoute `iecode` à votre variable d'environnement PATH.
 ```powershell
+# À lancer une seule fois (en Administrateur pour winget)
 ./scripts/setup.ps1
 ```
-3. Redémarrez votre terminal. Vous pouvez maintenant utiliser partout la commande `iecode`.
+*Note : Redémarrez votre terminal après cette étape pour activer la commande `iecode` partout.*
+
+### 2. Extraction du Jeu (Dump)
+Extrait tous les fichiers des archives `.cpk` vers le dossier local `C:\iecode\dump`.
+```powershell
+# À lancer pour récupérer les fichiers bruts du jeu
+./scripts/dump.ps1
+```
+
+### 3. Conversion en JSON
+Convertit les fichiers binaires (`.cfg.bin`) en JSON lisible tout en préservant l'arborescence des dossiers.
+```powershell
+# À lancer une fois le dump terminé
+./scripts/convert_to_json.ps1
+```
+*Note : Ce script ignore automatiquement les dossiers `map` pour optimiser le temps de traitement.*
 
 ---
 
-## 🚀 Guide d'Extraction et de Conversion
+## 📂 Détail des Scripts (Dossier `/scripts`)
 
-Ce guide détaille les deux phases principales pour obtenir une base de données complète du jeu.
-
-### 📦 Phase 1 : Extraction des fichiers (Dump)
-
-Cette étape extrait les fichiers bruts des archives Criware (`.cpk`) vers un dossier local. L'outil gère automatiquement la décompression, le déchiffrement et permet la reprise en cas d'interruption.
-
-**Commande recommandée :**
-```powershell
-# Extraction complète vers le dossier 'dump'
-# -o : Dossier de sortie
-# -t : Nombre de threads (défaut: 8)
-# --verbose : Affiche la progression détaillée
-./bin/publish/iecode.exe dump -o C:\iecode\dump --verbose
-```
-
-*   **Smart Resume** : Grâce au manifest `.iecode-manifest.json`, vous pouvez relancer la commande et elle ignorera les fichiers déjà extraits.
-*   **Localisation** : L'outil détecte automatiquement votre installation Steam du jeu.
-
----
-
-### 📂 Phase 2 : Conversion en JSON
-
-Une fois les fichiers extraits dans le dossier `dump`, vous pouvez convertir les fichiers de configuration binaires (`.cfg.bin`) en fichiers JSON lisibles.
-
-#### 1. Conversion des modèles typés (Rapide)
-Utilisez cette commande pour extraire les données essentielles (personnages, noms, sous-titres) avec un formatage optimisé.
-```powershell
-./bin/publish/iecode.exe dump-gamedata all --dump C:\iecode\dump --output C:\iecode\dump\data_json
-```
-
-#### 2. Conversion massive avec structure d'origine (Complet)
-Si vous avez besoin de convertir TOUT le dossier `gamedata` tout en préservant l'arborescence des dossiers (très utile pour les scripts d'analyse), utilisez ce script PowerShell :
-
-```powershell
-$srcBase = "C:\iecode\dump\data\common\gamedata"
-$destBase = "C:\iecode\dump\data_json\gamedata"
-
-Get-ChildItem -Path $srcBase -Filter "*.cfg.bin" -Recurse | Where-Object { $_.FullName -notmatch "\\map\\" } | ForEach-Object {
-    $relPath = $_.FullName.Substring($srcBase.Length + 1)
-    $destFile = Join-Path $destBase ($relPath + ".json")
-    $destDir = Split-Path $destFile
-    if (!(Test-Path $destDir)) { New-Item -ItemType Directory -Path $destDir -Force }
-    
-    Write-Host "Converting: $relPath..."
-    & "./bin/publish/iecode.exe" config read $_.FullName -o $destFile
-}
-```
-*Note : Nous utilisons `Where-Object` pour ignorer le dossier `map`, car il contient des milliers de fichiers de géométrie peu utiles pour l'analyse de données.*
-
-#### 3. Conversion des Textes (Localisation)
-Pour extraire les textes français, anglais ou japonais :
-```powershell
-$langs = @("fr", "en", "ja")
-foreach ($lang in $langs) {
-    # Même logique de script que ci-dessus en ciblant /text/$lang
-}
-```
+| Script | Rôle |
+| :--- | :--- |
+| `setup.ps1` | Setup complet : SDK .NET, Build Release, Configuration du PATH global. |
+| `dump.ps1` | Extraction massive des assets via la commande `iecode dump`. |
+| `convert_to_json.ps1` | Conversion intelligente gamedata + text avec respect de l'arborescence. |
 
 ---
 
@@ -84,7 +50,8 @@ foreach ($lang in $langs) {
 *   **IECODE.Desktop** : Interface graphique (Avalonia) incluant un Memory Editor et un Game Launcher sans EAC.
 
 ## 📁 Formats de Fichiers Supportés
-| Extension | Description | conversion |
+
+| Extension | Description | Commande CLI |
 | :--- | :--- | :--- |
 | `.cpk` | Archives Criware | `iecode dump` |
 | `.cfg.bin` | Fichiers de configuration Level-5 | `iecode config read` |
