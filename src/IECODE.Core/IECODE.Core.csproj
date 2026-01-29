@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Multi-target for maximum compatibility -->
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);SYSLIB1225</NoWarn>
+  </PropertyGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       Consolidated Libraries (previously external projects)
+       CfgBinEditor, CriFsV2Lib, Viola, SaveEditor now integrated
+       ═══════════════════════════════════════════════════════════════════════════ -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       NuGet Packages
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <ItemGroup>
+    <!-- From CfgBinEditor.Core -->
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.0" />
+    
+    <!-- From Viola.Core -->
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0" />
+    
+    <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.5" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
+    <PackageReference Include="System.IO.Hashing" Version="9.0.0" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.0" />
+    
+    <!-- Texture Compression -->
+    <PackageReference Include="BCnEncoder.Net" Version="2.2.1" />
+
+    <!-- Database -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       Embedded Resources
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EACLauncher.zip" />
+  </ItemGroup>
+
+</Project>

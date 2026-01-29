@@ -1,0 +1,93 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.npm/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+.vercel
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+server.err
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+
+# OS Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Testing
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Turborepo
+.turbo/
+
+# Temporary
+.temp/
+tmp/
+data/
+dump/
+temp/
+apps/azalee/public/menu/
+
+# IECODE Extracted Data
+bin/
+publish/
+*.cfg.bin
+*.json
+!package.json
+!tsconfig.json
+!next.config.json
+!composer.json
+!global.json
+!*.deps.json
+!*.runtimeconfig.json
+!AppxManifest.xml
+!IECODE.Core.dll.config
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettiercache
+
+# Storybook
+storybook-static/
+
+# Misc
+*.pem
+*.crt
