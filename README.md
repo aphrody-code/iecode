@@ -2,6 +2,17 @@
 
 IECODE est une suite d'outils puissante conçue pour le reverse engineering, l'extraction de données et le modding d'**Inazuma Eleven: Victory Road** (Beta & Full Version). Ce projet permet d'extraire les archives du jeu, d'analyser les formats propriétaires de Level-5 et de convertir les données binaires en formats exploitables (JSON, PNG, GLB).
 
+## 🛠️ Installation Rapide
+
+Pour installer automatiquement .NET, compiler le projet et l'ajouter à votre PATH global :
+
+1. Ouvrez un terminal PowerShell en tant qu'administrateur.
+2. Lancez le script de configuration :
+```powershell
+./scripts/setup.ps1
+```
+3. Redémarrez votre terminal. Vous pouvez maintenant utiliser partout la commande `iecode`.
+
 ---
 
 ## 🚀 Guide d'Extraction et de Conversion
