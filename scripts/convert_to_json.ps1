@@ -1,7 +1,11 @@
 # Conversion massive de gamedata et text en JSON
 # Ce script préserve l'architecture des dossiers et ignore le dossier 'map'
 
-$IECODE_EXE = "$PSScriptRoot\..\bin\publish\iecode.exe"
+# Tentative de localisation de l'exécutable iecode
+$IECODE_EXE = "iecode"
+if (!(Get-Command $IECODE_EXE -ErrorAction SilentlyContinue)) {
+    $IECODE_EXE = "$PSScriptRoot\..\bin\publish\iecode.exe"
+}
 $DUMP_ROOT = "C:\iecode\dump"
 $JSON_ROOT = "C:\iecode\dump\data_json"
 
